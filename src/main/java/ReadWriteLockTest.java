@@ -1,9 +1,25 @@
+import java.util.Random;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class ReadWriteLockTest {
     public static void main(String[] args) {
-        Queue3 queue = new Queue3();
-        
+        final Queue3 queue = new Queue3();
+        for (int i = 0; i < 3; i++) {
+            new Thread() {
+                public void run() {
+                    while (true) {
+                        queue.get();
+                    }
+                }
+            }.start();
+
+            new Thread() {
+                public void run() {
+                    queue.put(new Random().nextInt(10000));
+                }
+            }.start();
+        }
+
     }
 }
 
@@ -16,11 +32,11 @@ class Queue3 {
         readWriteLock.readLock().lock();
         try {
             System.out.println(Thread.currentThread().getName() + " be ready to read data!");
-            Thread.sleep((long) (Math.random() * 1000));
+            Thread.sleep((long) (Math.random() * 2000));
             System.out.println(Thread.currentThread().getName() + " have read data :" + data);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             readWriteLock.readLock().unlock();
         }
     }
@@ -34,7 +50,7 @@ class Queue3 {
             System.out.println(Thread.currentThread().getName() + " have write data :" + data);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             readWriteLock.writeLock().unlock();
         }
     }

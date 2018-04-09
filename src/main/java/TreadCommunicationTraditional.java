@@ -1,4 +1,4 @@
-public class TraditionalTreadCommunication {
+public class TreadCommunicationTraditional {
     public static void main(String[] args) {
         final Business business = new Business();
         new Thread(new Runnable() {
