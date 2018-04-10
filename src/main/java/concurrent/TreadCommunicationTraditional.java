@@ -1,3 +1,5 @@
+package concurrent;
+
 public class TreadCommunicationTraditional {
     public static void main(String[] args) {
         final Business business = new Business();
